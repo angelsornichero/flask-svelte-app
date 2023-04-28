@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+ pipenv: 
+    container_name: api-pipenv
+    build:
+      dockerfile: ./api/Dockerfile
+    image: flask-svelte-app/pipenv
+    command: pipenv install
+    volumes: 
+      - .:/code/
+ flask:
+    container_name: api-flask
+    image: flask-svelte-app/pipenv
+    ports:
+      - 5000:5000
+    environment:
+      - FLASK_ENV=development
+    depends_on:
+      pipenv:
+        condition: service_completed_successfully 
+    command: /bin/bash docker-exec.sh
+    volumes: 
+      - .:/code/
+      - ./:/workspace:cached
+      
