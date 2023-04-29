@@ -1,11 +1,17 @@
 from flask import Flask
-from constants.main import PORT
+from constants.main import PORT, SQL_URI
+from db.database import db
+
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello_world():
-    return "Hello World!!!!!"
+# DB
+app.config["SQLALCHEMY_DATABASE_URI"] = SQL_URI
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
+
 
 if __name__ == "__main__":
-    app.run(port=PORT, debug=True)
+    app.run(port=PORT)

@@ -18,7 +18,9 @@ services:
       - FLASK_ENV=development
     depends_on:
       pipenv:
-        condition: service_completed_successfully 
+        condition: service_completed_successfully
+      mysql:
+        condition: service_started
     command: /bin/bash docker-exec.sh
     network_mode: host
     volumes: 
