@@ -1,2 +1,2 @@
 pipenv install 
-pipenv run flask --app src/app.py run
+pipenv run flask --debug --app src/app.py run

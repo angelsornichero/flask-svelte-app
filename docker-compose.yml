@@ -20,7 +20,16 @@ services:
       pipenv:
         condition: service_completed_successfully 
     command: /bin/bash docker-exec.sh
+    network_mode: host
     volumes: 
       - .:/code/
       - ./:/workspace:cached
+ mysql: 
+    container_name: mysqldb
+    image: mysql
+    ports:
+      - 7000:3306
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_ROOT_PASSWORD: root
       
