@@ -9,6 +9,7 @@ python-dotenv = "*"
 flask-sqlalchemy = "*"
 mysqlclient = "*"
 passlib = "*"
+pyjwt = "*"
 
 [dev-packages]
 

@@ -3,12 +3,33 @@ from flask import request
 from models.users import User
 from db.database import db
 from passlib.hash import pbkdf2_sha256 as hashgen
+import jwt
+from constants.main import JWT_SECRET
+
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login')
+@auth.route('/login', methods=['POST'])
 def login():
-    return "Login"
+    username = request.json.get('username')
+    password = request.json.get('password')
+
+    if username is None or password is None:
+        return { "message": "[!] Please fill all fields", "success": False }, 401
+
+    find_user = User.query.filter_by(username=username).first()
+
+    if find_user is None:
+        return { "message": "[!] Invalid user or password", "success": False }, 401
+    
+    verify = hashgen.verify(password, find_user.password)
+
+    if not verify:
+        return { "message": "[!] Invalid user or password", "success": False }, 401
+
+    encoded_jwt = jwt.encode({"username": username}, JWT_SECRET, algorithm="HS256")
+
+    return { "message": "[*] User logged in successfully", "success": True, "token": encoded_jwt }
 
 
 
@@ -35,4 +56,6 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
-    return { "message": "[*] User resgistered successfully", "success": True }
+    encoded_jwt = jwt.encode({"username": username}, JWT_SECRET, algorithm="HS256")
+
+    return { "message": "[*] User resgistered successfully", "success": True, "token": encoded_jwt }
