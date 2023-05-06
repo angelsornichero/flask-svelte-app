@@ -10,6 +10,9 @@ flask-sqlalchemy = "*"
 mysqlclient = "*"
 passlib = "*"
 pyjwt = "*"
+flask-crontab = "*"
+requests = "*"
+flask-apscheduler = "*"
 
 [dev-packages]
 
