@@ -1,6 +1,8 @@
 import requests
 from constants.main import X_RAPIDAPI_HOST, X_RAPIDAPI_KEY 
 from models.exercises import Exercises
+from db.database import db
+
 
 def get_exercises():
 
@@ -8,8 +10,8 @@ def get_exercises():
 
     if len(find_exercises) != 0:
         print('[*] Database is already complete, exiting')
-    
-
+        return 
+       
     print('[*]: Collecting exercises')
     
 
@@ -21,5 +23,23 @@ def get_exercises():
     }
 
     response = requests.get(url, headers=headers)
+    data = response.json()
 
-    print(response.json())
+    entries = []
+
+    for entry in data:
+        new_entry = Exercises(
+            body_part=entry['bodyPart'],
+            id=entry['id'],
+            equipment=entry['equipment'],
+            gif_url=entry['gifUrl'],
+            name=entry['name'],
+            target=entry['target']
+        )
+
+        entries.append(new_entry)
+
+    db.session.add_all(entries)
+    db.session.commit()
+
+    print('[*] Database filled successfully')

@@ -2,6 +2,7 @@ from flask import Flask
 from constants.main import PORT, SQL_URI
 from db.database import db
 from routes.auth import auth
+from routes.routines import routines
 from tasks.exercises import get_exercises
 
 
@@ -17,7 +18,7 @@ with app.app_context():
 
 # Blueprints
 app.register_blueprint(auth)
-
+app.register_blueprint(routines)
 
 if __name__ == "__main__":
    
