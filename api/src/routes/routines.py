@@ -61,3 +61,50 @@ def get_routines():
 
 
     return { "message": "[*] Here are your routines", "success": True, "routines": routines}
+
+@routines.route('/routine/<routine_to_delete>', methods=['DELETE'])
+def delete_routine(routine_to_delete):
+    token = request.headers.get('authorization')
+    
+    if token is None: 
+        return { "message": "[!] A token expected", "succes": False }, 401
+
+    decoded = jwt.decode(token, JWT_SECRET, algorithms="HS256")
+
+    username = decoded['username']
+
+    find_routine = Routines.query.filter_by(name=routine_to_delete, user=username).first()
+
+    if find_routine is None:
+        return { "message": "[!] Routine doesn't exists", "success": False }
+
+    db.session.delete(find_routine)
+    db.session.commit()
+
+    return { "message": "[*] Routine deleted successfully", "success": True }
+
+
+@routines.route('/routine/<routine_to_update>', methods=['PUT'])
+def update_routine(routine_to_update):
+    name = request.json.get('name')
+    label = request.json.get('label')
+    token = request.headers.get('authorization')
+    
+    if token is None: 
+        return { "message": "[!] A token expected", "succes": False }, 401
+
+    decoded = jwt.decode(token, JWT_SECRET, algorithms="HS256")
+
+    username = decoded['username']
+
+    find_routine = Routines.query.filter_by(name=routine_to_update, user=username).first()
+
+    if find_routine is None:
+        return { "message": "[!] Routine doesn't exists", "success": False }
+    
+    find_routine.name = name
+    find_routine.label = label
+
+    db.session.commit()
+
+    return { "message": "[*] Routine successfully updated", "success": True }
