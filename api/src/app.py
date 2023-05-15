@@ -1,27 +1,31 @@
 from flask import Flask
-from constants.main import PORT, SQL_URI
-from db.database import db
-from routes.auth import auth
-from routes.routines import routines
+from constants.main import SQL_URI
+from routes.auth import AuthRoutes
+from routes.routines import RoutinesRoutes
 from tasks.exercises import get_exercises
+from db.database import db
 
 
-app = Flask(__name__)
+class App:
+    app = Flask(__name__)
+    
+    def __init__(self):
+        self.init_db()
+        self.init_app_context()
+        self.blueprints()
+    def init_db(self):
+        self.app.config["SQLALCHEMY_DATABASE_URI"] = SQL_URI
+        db.init_app(self.app)
+        
+    def init_app_context(self):
+        with self.app.app_context():
+            db.create_all()
+            get_exercises()
 
-# DB
-app.config["SQLALCHEMY_DATABASE_URI"] = SQL_URI
-db.init_app(app)
+    def blueprints(self):
+        self.app.register_blueprint(AuthRoutes().auth)
+        self.app.register_blueprint(RoutinesRoutes().routines)
 
-with app.app_context():
-    db.create_all()
-    get_exercises()
 
-# Blueprints
-app.register_blueprint(auth)
-app.register_blueprint(routines)
-
-if __name__ == "__main__":
-   
-   app.run(port=PORT, debug=True)
 
     
