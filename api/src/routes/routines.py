@@ -3,7 +3,7 @@ import jwt
 from constants.main import JWT_SECRET
 from db.database import db
 from models.routines import Routines
-from modules.routines_utils import create_routine_module, get_routines_module, delete_routine_module, update_routine_module
+from modules.routines_module import RoutineModule
 
 
 class RoutinesRoutes:
@@ -18,7 +18,7 @@ class RoutinesRoutes:
             label = request.json.get('label')
             token = request.headers.get('authorization')
 
-            return create_routine_module(name=name, label=label, token=token)
+            return RoutineModule(name=name, label=label, token=token).create_routine_module()
 
 
 
@@ -26,14 +26,14 @@ class RoutinesRoutes:
         def get_routines():
             token = request.headers.get('authorization')
 
-            return get_routines_module(token=token)
+            return RoutineModule(token=token).get_routines_module()
 
 
         @self.routines.route('/routine/<routine_to_delete>', methods=['DELETE'])
         def delete_routine(routine_to_delete):
             token = request.headers.get('authorization')
             
-            return delete_routine_module(token=token, routine_to_delete=routine_to_delete)
+            return RoutineModule(token=token).delete_routine_module(routine_to_delete=routine_to_delete)
             
 
 
@@ -43,4 +43,4 @@ class RoutinesRoutes:
             label = request.json.get('label')
             token = request.headers.get('authorization')
             
-            return update_routine_module(routine_to_update=routine_to_update, token=token, name=name, label=label)
+            return RoutineModule(token=token, name=name, label=label).update_routine_module(routine_to_update=routine_to_update)
