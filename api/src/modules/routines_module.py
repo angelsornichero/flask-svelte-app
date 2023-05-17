@@ -1,8 +1,6 @@
-import jwt
-from constants.main import JWT_SECRET
 from db.database import db
 from models.routines import Routines
-from flask import request
+from modules.jwt_module import JwtModule
 
 
 class RoutineModule:
@@ -20,9 +18,7 @@ class RoutineModule:
         if self.token is None: 
             return { "message": "[!] A token expected", "succes": False }, 401
 
-        decoded = jwt.decode(self.token, JWT_SECRET, algorithms="HS256")
-
-        self.user = decoded['username']
+        self.user = JwtModule().get_user(token=self.token)
 
         find_routine = Routines.query.filter_by(user=self.user, name=self.name).first()
 
@@ -41,9 +37,7 @@ class RoutineModule:
         if self.token is None: 
             return { "message": "[!] A token expected", "succes": False }, 401
 
-        decoded = jwt.decode(self.token, JWT_SECRET, algorithms="HS256")
-
-        self.user = decoded['username']
+        self.user = JwtModule().get_user(token=self.token)
 
         raw_routines = Routines.query.filter_by(user=self.user).all()
         routines = []
@@ -64,9 +58,7 @@ class RoutineModule:
         if self.token is None: 
             return { "message": "[!] A token expected", "succes": False }, 401
 
-        decoded = jwt.decode(self.token, JWT_SECRET, algorithms="HS256")
-
-        self.user = decoded['username']
+        self.user = JwtModule().get_user(token=self.token)
 
         find_routine = Routines.query.filter_by(name=routine_to_delete, user=self.user).first()
 
@@ -82,17 +74,13 @@ class RoutineModule:
         if self.token is None: 
             return { "message": "[!] A token expected", "succes": False }, 401
 
-        decoded = jwt.decode(self.token, JWT_SECRET, algorithms="HS256")
-
-        self.user = decoded['username']
+        self.user = JwtModule().get_user(token=self.token)
 
         find_routine = Routines.query.filter_by(name=routine_to_update, user=self.user).first()
 
         if find_routine is None:
             return { "message": "[!] Routine doesn't exists", "success": False }, 400
         
-        
-
         any_routine = Routines.query.filter_by(name=self.name, user=self.user).first()
 
         if any_routine is not None:

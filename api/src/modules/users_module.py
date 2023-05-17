@@ -1,8 +1,7 @@
 from models.users import User
 from db.database import db
 from passlib.hash import pbkdf2_sha256 as hashgen
-import jwt
-from constants.main import JWT_SECRET
+from modules.jwt_module import JwtModule
 
 
 class UserModule:
@@ -26,9 +25,9 @@ class UserModule:
         if not verify:
             return { "message": "[!] Invalid user or password", "success": False }, 401
 
-        encoded_jwt = jwt.encode({"username": self.username}, JWT_SECRET, algorithm="HS256")
+        
 
-        return { "message": "[*] User logged in successfully", "success": True, "token": encoded_jwt }
+        return { "message": "[*] User logged in successfully", "success": True, "token": JwtModule.encode_jwt(self.username) }
     
     def register(self):
         if self.username is None or self.email is None or self.password is None or self.repeat_password is None:
@@ -46,6 +45,4 @@ class UserModule:
         db.session.add(new_user)
         db.session.commit()
 
-        encoded_jwt = jwt.encode({"username": self.username}, JWT_SECRET, algorithm="HS256")
-
-        return { "message": "[*] User resgistered successfully", "success": True, "token": encoded_jwt }
+        return { "message": "[*] User resgistered successfully", "success": True, "token": JwtModule.encode_jwt(self.username) }

@@ -8,8 +8,6 @@ class AuthRoutes:
     auth = Blueprint('auth', __name__)
 
     def __init__(self):
-        
-
         @self.auth.route('/login', methods=['POST'])
         def login():
             username = request.json.get('username')
