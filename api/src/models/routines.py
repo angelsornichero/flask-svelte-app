@@ -1,6 +1,5 @@
 from db.database import db
 from sqlalchemy.schema import ForeignKey
-from models.exercises import Exercises
 from datetime import datetime
 class Routines(db.Model):
     name = db.Column(db.String(16))

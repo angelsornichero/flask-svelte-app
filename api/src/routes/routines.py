@@ -1,8 +1,6 @@
 from flask import Blueprint, request
-import jwt
-from constants.main import JWT_SECRET
+from modules.routines_exercises_module import RoutineExercises
 from db.database import db
-from models.routines import Routines
 from modules.routines_module import RoutineModule
 
 
@@ -44,3 +42,13 @@ class RoutinesRoutes:
             token = request.headers.get('authorization')
             
             return RoutineModule(token=token, name=name, label=label).update_routine_module(routine_to_update=routine_to_update)
+
+        @self.routines.route('/add-exercise', methods=['POST'])
+        def add_exercise():
+            name = request.json.get('exercise_name')
+            routine_name = request.json.get('routine_name')
+            reps = request.json.get('reps')
+            series = request.json.get('series')
+            token = request.headers.get('authorization')
+
+            return RoutineExercises(token=token, name=name, routine_name=routine_name, reps=reps, series=series).add_exercise()
