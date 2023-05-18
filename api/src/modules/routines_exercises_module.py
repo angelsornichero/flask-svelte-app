@@ -5,9 +5,9 @@ from models.exercises import Exercises
 from modules.jwt_module import JwtModule
 
 
-class RoutineExercises:
+class RoutineExercisesModule:
     
-    def __init__(self, token, name, routine_name, reps = None, series = None):
+    def __init__(self, token, name = None, routine_name = None, reps = None, series = None):
         self.token = token
         self.name = name
         self.routine_name = routine_name
@@ -51,3 +51,28 @@ class RoutineExercises:
         db.session.commit()
 
         return { "message": "[*] Exercise successfully upload to {}".format(self.routine_name), "success": True }
+    
+    def delete_exercise(self, id):
+        if id is None:
+            return { "message": "[!] Please give a id", "success": False }, 400
+
+
+        if self.token is None: 
+            return { "message": "[!] A token expected", "succes": False }, 401
+
+        self.user = JwtModule().get_user(token=self.token)
+        
+        find_routine = Routines.query.filter_by(user=self.user, name=self.routine_name).first()
+
+        if find_routine is None:
+            return { "message": "[!] Routine doesn't exists", "success": False }, 404 
+
+        find_exercise = Routines_Exercises.query.filter_by(id=id, routine_id=find_routine.id).first()
+        
+        if find_exercise is None:
+            return { "message": "[!] Exercise doesn't exists", "success": False }, 400
+
+        db.session.delete(find_exercise)
+        db.session.commit()
+        
+        return { "message": "[*] Exercise correctly deleted", "success": True }

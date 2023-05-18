@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from modules.routines_exercises_module import RoutineExercises
+from modules.routines_exercises_module import RoutineExercisesModule
 from db.database import db
 from modules.routines_module import RoutineModule
 
@@ -51,4 +51,11 @@ class RoutinesRoutes:
             series = request.json.get('series')
             token = request.headers.get('authorization')
 
-            return RoutineExercises(token=token, name=name, routine_name=routine_name, reps=reps, series=series).add_exercise()
+            return RoutineExercisesModule(token=token, name=name, routine_name=routine_name, reps=reps, series=series).add_exercise()
+        
+        @self.routines.route('/delete-exercise/<id>', methods=['DELETE'])
+        def delete_exercise(id):
+            token = request.headers.get('authorization')
+            routine_name = request.json.get('routine_name')
+
+            return RoutineExercisesModule(token=token, routine_name=routine_name).delete_exercise(id=id)
