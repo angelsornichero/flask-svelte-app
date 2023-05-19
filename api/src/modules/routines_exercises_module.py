@@ -3,7 +3,7 @@ from models.routine_exercises import Routines_Exercises
 from models.routines import Routines
 from models.exercises import Exercises
 from modules.jwt_module import JwtModule
-
+from modules.error_module import ErrorResponse
 
 class RoutineExercisesModule:
     
@@ -18,23 +18,23 @@ class RoutineExercisesModule:
     def add_exercise(self):
 
         if self.name is None or self.routine_name is None or self.reps is None or self.series is None:
-            return { "message": "There are some fields missing", "success": False }
+            return ErrorResponse(400).missing_fields()
 
 
         if self.token is None: 
-            return { "message": "[!] A token expected", "succes": False }, 401
+            return ErrorResponse(401).no_token()
 
         self.user = JwtModule().get_user(token=self.token)
 
         find_routine = Routines.query.filter_by(user=self.user, name=self.routine_name).first()
 
         if find_routine is None:
-            return { "message": "[!] Routine doesn't exists", "success": False }, 404 
+            return ErrorResponse(400).routine_doesnt_exists()
         
         find_exercise = Exercises.query.filter_by(name=self.name).first()
 
         if find_exercise is None:
-            return { "message": "[!] Exercise doesn't exists", "success": False }, 404 
+            return ErrorResponse(400).exercise_doesnt_exits()
         
         new_exercise_to_routine = Routines_Exercises(
             name=self.name, 
@@ -54,23 +54,23 @@ class RoutineExercisesModule:
     
     def delete_exercise(self, id):
         if id is None:
-            return { "message": "[!] Please give a id", "success": False }, 400
+            return ErrorResponse(400).custom_message("[!] Please give a id")
 
 
         if self.token is None: 
-            return { "message": "[!] A token expected", "succes": False }, 401
+            return ErrorResponse(401).no_token()
 
         self.user = JwtModule().get_user(token=self.token)
         
         find_routine = Routines.query.filter_by(user=self.user, name=self.routine_name).first()
 
         if find_routine is None:
-            return { "message": "[!] Routine doesn't exists", "success": False }, 404 
+            return ErrorResponse(400).routine_doesnt_exists()
 
         find_exercise = Routines_Exercises.query.filter_by(id=id, routine_id=find_routine.id).first()
         
         if find_exercise is None:
-            return { "message": "[!] Exercise doesn't exists", "success": False }, 400
+            return ErrorResponse(400).exercise_doesnt_exits()
 
         db.session.delete(find_exercise)
         db.session.commit()

@@ -2,7 +2,7 @@ from db.database import db
 from models.routines import Routines
 from modules.jwt_module import JwtModule
 from models.routine_exercises import Routines_Exercises
-
+from modules.error_module import ErrorResponse
 class RoutineModule:
 
 
@@ -13,17 +13,17 @@ class RoutineModule:
 
     def create_routine_module(self):
         if self.name is None or self.label is None:
-            return { "message": "[!] Some fields missing", "success": False }, 400
+            return ErrorResponse(400).missing_fields()
         
         if self.token is None: 
-            return { "message": "[!] A token expected", "succes": False }, 401
+            return ErrorResponse(401).no_token()
 
         self.user = JwtModule().get_user(token=self.token)
 
         find_routine = Routines.query.filter_by(user=self.user, name=self.name).first()
 
         if find_routine is not None:
-            return { "message": "[!] Routine already exists", "success": False }, 400 
+            return ErrorResponse(400).routine_already_exists()
 
         new_routine = Routines(name=self.name, label=self.label, user=self.user)
         
@@ -35,7 +35,7 @@ class RoutineModule:
 
     def get_routines_module(self):
         if self.token is None: 
-            return { "message": "[!] A token expected", "succes": False }, 401
+             return ErrorResponse(401).no_token()
 
         self.user = JwtModule().get_user(token=self.token)
 
@@ -56,14 +56,14 @@ class RoutineModule:
 
     def delete_routine_module(self, routine_to_delete):
         if self.token is None: 
-            return { "message": "[!] A token expected", "succes": False }, 401
+             return ErrorResponse(401).no_token()
 
         self.user = JwtModule().get_user(token=self.token)
 
         find_routine = Routines.query.filter_by(name=routine_to_delete, user=self.user).first()
 
         if find_routine is None:
-            return { "message": "[!] Routine doesn't exists", "success": False }
+            return ErrorResponse(400).routine_doesnt_exists()
 
         db.session.delete(find_routine)
         db.session.commit()
@@ -72,19 +72,19 @@ class RoutineModule:
 
     def update_routine_module(self, routine_to_update):
         if self.token is None: 
-            return { "message": "[!] A token expected", "succes": False }, 401
+             return ErrorResponse(401).no_token()
 
         self.user = JwtModule().get_user(token=self.token)
 
         find_routine = Routines.query.filter_by(name=routine_to_update, user=self.user).first()
 
         if find_routine is None:
-            return { "message": "[!] Routine doesn't exists", "success": False }, 400
+            return ErrorResponse(400).routine_doesnt_exists()
         
         any_routine = Routines.query.filter_by(name=self.name, user=self.user).first()
 
         if any_routine is not None:
-            return { "message": "[*] There is already a routine with that name", "success": False }, 400
+            return ErrorResponse(400).custom_message("[*] There is already a routine with that name")
         
         find_routine.name = self.name
         find_routine.label = self.label
@@ -95,14 +95,14 @@ class RoutineModule:
 
     def get_routine_module(self):
         if self.token is None: 
-            return { "message": "[!] A token expected", "succes": False }, 401
+             return ErrorResponse(401).no_token()
 
         self.user = JwtModule().get_user(token=self.token)
 
         find_routine = Routines.query.filter_by(name=self.name, user=self.user).first()
 
         if find_routine is None:
-            return { "message": "[!] Routine doesn't exists", "success": False }, 400
+            return ErrorResponse(400).routine_doesnt_exists()
         
         raw_exercises = Routines_Exercises.query.filter_by(routine_id=find_routine.id).all()
         exercises = []
