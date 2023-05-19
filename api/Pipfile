@@ -13,6 +13,7 @@ pyjwt = "*"
 flask-crontab = "*"
 requests = "*"
 flask-apscheduler = "*"
+flask-http-middleware = "*"
 
 [dev-packages]
 

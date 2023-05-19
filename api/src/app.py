@@ -5,7 +5,6 @@ from routes.routines import RoutinesRoutes
 from tasks.exercises import get_exercises
 from db.database import db
 
-
 class App:
     app = Flask(__name__)
     
@@ -26,13 +25,7 @@ class App:
         self.app.register_blueprint(AuthRoutes().auth)
         self.app.register_blueprint(RoutinesRoutes().routines)
     
-    def middlewares(self):
-        def hola():
-            return 'Jeje'
-        self.app.before_request_funcs = {
-            # blueprint name: [list_of_functions]
-            'routines': [hola]
-        }
+        
 
 
     

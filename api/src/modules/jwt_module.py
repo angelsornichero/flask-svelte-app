@@ -13,3 +13,10 @@ class JwtModule:
     def get_user(self, token):
         decoded = self.decode_jwt(token)
         return decoded['username']
+    
+    def verify_jwt(self, token):
+        try:
+            self.decode_jwt(token=token)
+            return True
+        except Exception:
+            return False 
