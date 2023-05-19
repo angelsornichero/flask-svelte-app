@@ -43,6 +43,12 @@ class RoutinesRoutes:
             
             return RoutineModule(token=token, name=name, label=label).update_routine_module(routine_to_update=routine_to_update)
 
+        @self.routines.route('/get-routine/<name>')
+        def get_routine(name):
+            token = request.headers.get('authorization')
+
+            return RoutineModule(token=token, name=name).get_routine_module()
+
         @self.routines.route('/add-exercise', methods=['POST'])
         def add_exercise():
             name = request.json.get('exercise_name')
@@ -59,3 +65,5 @@ class RoutinesRoutes:
             routine_name = request.json.get('routine_name')
 
             return RoutineExercisesModule(token=token, routine_name=routine_name).delete_exercise(id=id)
+        
+        

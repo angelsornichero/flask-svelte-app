@@ -25,7 +25,14 @@ class App:
     def blueprints(self):
         self.app.register_blueprint(AuthRoutes().auth)
         self.app.register_blueprint(RoutinesRoutes().routines)
-
+    
+    def middlewares(self):
+        def hola():
+            return 'Jeje'
+        self.app.before_request_funcs = {
+            # blueprint name: [list_of_functions]
+            'routines': [hola]
+        }
 
 
     
