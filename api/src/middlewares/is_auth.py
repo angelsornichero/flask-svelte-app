@@ -6,7 +6,10 @@ from functools import wraps
 def is_authorithed(func, *args):
     @wraps(func)
     def decorated_func(*args):
-        token = request.headers.get('authorization')
+        try:
+            token = request.headers.get('authorization')
+        except AttributeError:
+            return ErrorResponse(401).no_authenticaded_response()
         verified = JwtModule().verify_jwt(token=token)
         if verified == False:
             return ErrorResponse(401).no_authenticaded_response()

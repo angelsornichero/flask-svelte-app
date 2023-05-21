@@ -14,6 +14,7 @@ flask-crontab = "*"
 requests = "*"
 flask-apscheduler = "*"
 flask-http-middleware = "*"
+pytest = "*"
 
 [dev-packages]
 

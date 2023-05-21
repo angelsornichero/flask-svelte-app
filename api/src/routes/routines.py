@@ -15,9 +15,12 @@ class RoutinesRoutes:
         @self.routines.route('/new-routine', methods=['POST'])
         @is_authorithed
         def create_routine():
-            name = request.json.get('name')
-            label = request.json.get('label')
-            token = request.headers.get('authorization')
+            try: 
+                name = request.json.get('name')
+                label = request.json.get('label')
+                token = request.headers.get('authorization')
+            except AttributeError:
+                return ErrorResponse(400).missing_fields()
 
             return RoutineModule(name=name, label=label, token=token).create_routine_module()
 
@@ -43,9 +46,12 @@ class RoutinesRoutes:
         @self.routines.route('/routine/<routine_to_update>', methods=['PUT'])
         @is_authorithed
         def update_routine(routine_to_update):
-            name = request.json.get('name')
-            label = request.json.get('label')
-            token = request.headers.get('authorization')
+            try:
+                name = request.json.get('name')
+                label = request.json.get('label')
+                token = request.headers.get('authorization')
+            except AttributeError:
+                return ErrorResponse(400).missing_fields()
             
             return RoutineModule(token=token, name=name, label=label).update_routine_module(routine_to_update=routine_to_update)
 
@@ -59,19 +65,25 @@ class RoutinesRoutes:
         @self.routines.route('/add-exercise', methods=['POST'])
         @is_authorithed
         def add_exercise():
-            name = request.json.get('exercise_name')
-            routine_name = request.json.get('routine_name')
-            reps = request.json.get('reps')
-            series = request.json.get('series')
-            token = request.headers.get('authorization')
+            try:
+                name = request.json.get('exercise_name')
+                routine_name = request.json.get('routine_name')
+                reps = request.json.get('reps')
+                series = request.json.get('series')
+                token = request.headers.get('authorization')
+            except AttributeError:
+                return ErrorResponse(400).missing_fields()
 
             return RoutineExercisesModule(token=token, name=name, routine_name=routine_name, reps=reps, series=series).add_exercise()
         
         @self.routines.route('/delete-exercise/<id>', methods=['DELETE'])
         @is_authorithed
         def delete_exercise(id):
-            token = request.headers.get('authorization')
-            routine_name = request.json.get('routine_name') 
+            try:
+                token = request.headers.get('authorization')
+                routine_name = request.json.get('routine_name') 
+            except AttributeError:
+                return ErrorResponse(400).missing_fields()
 
             return RoutineExercisesModule(token=token, routine_name=routine_name).delete_exercise(id=id)
         
