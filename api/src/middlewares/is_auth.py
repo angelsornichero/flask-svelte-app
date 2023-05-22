@@ -3,9 +3,9 @@ from modules.jwt_module import JwtModule
 from modules.error_module import ErrorResponse
 from functools import wraps
 
-def is_authorithed(func, *args):
+def is_authorithed(func):
     @wraps(func)
-    def decorated_func(*args):
+    def decorated_func(*args,**kwargs):
         try:
             token = request.headers.get('authorization')
         except AttributeError:
@@ -14,5 +14,5 @@ def is_authorithed(func, *args):
         if verified == False:
             return ErrorResponse(401).no_authenticaded_response()
         
-        return func(*args)
+        return func(*args, **kwargs)
     return decorated_func
