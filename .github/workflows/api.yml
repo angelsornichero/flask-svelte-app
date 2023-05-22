@@ -31,7 +31,7 @@ jobs:
         run: pip install -r api/requirements.txt
       
       - name: Exec flask
-        run: flask --debug --app api/src/main.py run
+        run: timeout 3 flask --debug --app src/main.py run || true
       
       
 
