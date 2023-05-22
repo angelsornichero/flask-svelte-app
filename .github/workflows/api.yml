@@ -3,7 +3,7 @@ name: API action
 on:
   push:
     branches:
-      - main
+      - master
 
 
 jobs:
