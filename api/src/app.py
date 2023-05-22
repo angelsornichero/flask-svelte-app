@@ -14,6 +14,7 @@ class App:
         self.blueprints()
     def init_db(self):
         self.app.config["SQLALCHEMY_DATABASE_URI"] = SQL_URI
+        print(SQL_URI)
         db.init_app(self.app)
         
     def init_app_context(self):
