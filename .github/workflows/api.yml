@@ -20,6 +20,9 @@ jobs:
           mysql database: 'app'
           mysql root password: 'root'
       
+      - name: Env variables
+        run: export PORT=5000; export SQL_URI="mysql://root:root@127.0.0.1:7000/app"; export JWT_SECRET=${{secrets.JWT_SECRET}}; export X_RAPIDAPI_HOST=${{secrets.X_RAPIDAPI_HOST}}; export X_RAPIDAPI_KEY=${{secrets.X_RAPIDAPI_KEY}}
+
       - name: Install dependencies
         run: pip install -r api/requirements.txt
       
