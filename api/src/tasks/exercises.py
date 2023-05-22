@@ -28,6 +28,7 @@ def get_exercises():
     entries = []
 
     for entry in data:
+        print(entry, entry['bodyPart'])
         new_entry = Exercises(
             body_part=entry['bodyPart'],
             id=entry['id'],
