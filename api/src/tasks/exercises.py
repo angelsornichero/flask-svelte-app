@@ -1,5 +1,5 @@
 import requests
-from constants.main import X_RAPIDAPI_HOST, X_RAPIDAPI_KEY 
+from constants.main import X_RAPIDAPI_HOST, X_RAPIDAPI_KEY, ACTION_ENV
 from models.exercises import Exercises
 from db.database import db
 
@@ -8,7 +8,7 @@ def get_exercises():
 
     find_exercises = Exercises.query.all()
 
-    if len(find_exercises) != 0:
+    if len(find_exercises) != 0 or ACTION_ENV != 0:
         print('[*] Database is already complete, exiting')
         return 
        
@@ -28,7 +28,6 @@ def get_exercises():
     entries = []
 
     for entry in data:
-        print(entry, entry['bodyPart'])
         new_entry = Exercises(
             body_part=entry['bodyPart'],
             id=entry['id'],

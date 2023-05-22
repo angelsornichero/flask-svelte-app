@@ -11,6 +11,7 @@ env:
   JWT_SECRET: ${{secrets.JWT_SECRET}}
   X_RAPIDAPI_HOST: ${{secrets.X_RAPIDAPI_HOST}}
   X_RAPIDAPI_KEY: ${{secrets.X_RAPIDAPI_KEY}}
+  ACTION_ENV: 1
 jobs:
   run:
     runs-on: ubuntu-latest
