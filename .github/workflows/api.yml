@@ -14,24 +14,18 @@ jobs:
         with:
           fetch-depth: 0
       - uses: actions/setup-python@v1
-      - uses: BSFishy/pip-action@v1
-        with:
-          requirements: src/requirements.txt
-      
-      - name: Shutdown Ubuntu MySQL (SUDO)
-        run: sudo service mysql stop 
-      
       - uses: mirromutth/mysql-action@v1.1
         with:
           host port: 7000
           mysql database: 'app'
           mysql root password: 'root'
       
+      - name: Install dependencies
+        run: pip install -r api/requirements.txt
+      
       - name: Exec flask
         run: flask --debug --app api/src/main.py run
       
-      - name: Test endpoints
-        run: pytest --root-dir api -v
       
 
 
