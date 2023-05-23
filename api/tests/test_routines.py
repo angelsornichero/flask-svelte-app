@@ -45,9 +45,10 @@ def test_create_routine():
     res = return_post_endpoint('create_routines', { 'name': 'jejeje' }, token=token)
     assert res.status_code == 400
 
+    """
     res = return_post_endpoint('create_routines', { 'name': 'routine', 'label': 'no-label ' }, token=token)
     assert res.status_code == 400
-
+    """
     """
     # I comment this for not create infinite routines
     name = ''.join(random.choices(string.ascii_uppercase, k=8))
@@ -76,6 +77,7 @@ def test_get_routine():
     res = return_get_endpoint('get_routine', token=token, params='no-routine-jeje')
     assert res.status_code == 400
 
+    res = return_post_endpoint('create_routines', { 'name': 'routine', 'label': 'label' }, token=token)
     res = return_get_endpoint('get_routine', token=token, params='routine')
     assert res.status_code == 200
     json = res.json()

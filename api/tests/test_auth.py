@@ -20,7 +20,7 @@ def test_register():
     assert res.status_code == 400
     res = return_endpoint('register', { "username": "angel" })
     assert res.status_code == 400
-    res = return_endpoint('register', { "username": 'angel', 'password': 'angel', 'email': 'angel', 'repeat_password': 'angel' })
+    res = return_endpoint('register', { "username": 'angel', 'password': '', 'email': 'angel', 'repeat_password': 'angel' })
     assert res.status_code == 401
     
     username = ''.join(random.choices(string.ascii_uppercase, k=8))
