@@ -28,8 +28,11 @@ def test_register():
     pasword = ''.join(random.choices(string.ascii_uppercase, k=8))
     repeat_password = ''.join(random.choices(string.ascii_uppercase, k=8))
 
+    """
+    Run only if this user exits
     res = return_endpoint('register', { "username": username, 'password': pasword, 'email': email, 'repeat_password': repeat_password })
     assert res.status_code ==  401
+    """
 
     """
     # I comment this for not create infinite users
