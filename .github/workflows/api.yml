@@ -33,7 +33,8 @@ jobs:
       - name: Exec flask and run tests
         run: |
           timeout 30 flask --debug --app api/src/main.py run || true &
-          pytest -v ./api
+          sleep 2 | pytest -v 
+
 
      
       
