@@ -7,7 +7,8 @@ routines_endpoints = {
     'create_routines': 'http://localhost:5000/new-routine',
     'get_routines': 'http://localhost:5000/routines',
     'get_routine': 'http://localhost:5000/get-routine/',
-    'login': 'http://localhost:5000/login'
+    'login': 'http://localhost:5000/login',
+    'register': 'http://localhost:5000/register'
 }
 
 
@@ -30,9 +31,8 @@ def return_get_endpoint(endpoint, token='', params = ''):
     )
     return response
 
-res = return_post_endpoint('login', { "username": "angel", "password": "angel" })
+res = return_post_endpoint('register', { "username": "angel1", "password": "angel", "email": "angel", "repeat_password": "angel" })
 json = res.json()
-print(res, json)
 token = json['token']
 
 def test_create_routine():

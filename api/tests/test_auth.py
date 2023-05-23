@@ -49,6 +49,8 @@ def test_login():
     assert res.status_code == 401
     res = return_endpoint('login', { "username": "angel", "password": "invalid_apassword" })
     assert res.status_code == 401
+
+    res = return_endpoint('register', { "username": 'angel', 'password': 'angel', 'email': 'angel', 'repeat_password': 'angel' })
     res = return_endpoint('login', { "username": "angel", "password": "angel" })
     assert res.status_code == 200
     res_body = res.json()
