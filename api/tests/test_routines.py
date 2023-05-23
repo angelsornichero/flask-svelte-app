@@ -32,6 +32,7 @@ def return_get_endpoint(endpoint, token='', params = ''):
 
 res = return_post_endpoint('login', { "username": "angel", "password": "angel" })
 json = res.json()
+print(res, json)
 token = json['token']
 
 def test_create_routine():
