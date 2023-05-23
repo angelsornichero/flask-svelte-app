@@ -30,8 +30,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r api/requirements.txt
       
-      - name: Exec flask and run tests
-        run: timeout 30 flask --debug --app api/src/main.py run & sleep 5 | pytest -v
+      - name: Exec flask and 
+        run: timeout 30 flask --debug --app api/src/main.py run || true &
+      
+      - name: Run tests
+        run: pytest -v ./api
       
       
 
