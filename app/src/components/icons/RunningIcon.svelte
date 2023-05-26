@@ -1,0 +1,1 @@
+<img src="/runner.png" alt="Person running" class="h-[620px] bg-transparent object-cover overflow-hidden w-[600px] opacity-10 shadow-2xl left-[66%] absolute m-0 p-0" />

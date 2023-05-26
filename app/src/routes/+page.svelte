@@ -1,8 +1,8 @@
 
 <script lang='ts'>
-    import BackgroundWrapper from "../components/BackgroundWrapper.svelte";
+    import Hero from "../components/Hero.svelte";
 </script>
 
-<BackgroundWrapper>
-    <h1 class="text-center font-extrabold text-9xl mb-[150px] bg-white text-gray-900 p-8 rounded-2xl">Routines app</h1>
-</BackgroundWrapper>
+<Hero>
+    <h1 class="text-center shadow-xl border-4 border-dashed border-black font-extrabold text-9xl mb-[150px] bg-white text-gray-900 p-8 rounded-2xl">Routines app</h1>
+</Hero>
