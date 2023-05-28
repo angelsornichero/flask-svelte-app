@@ -12,7 +12,7 @@
                 <a class="flex gap-1" href="/"><HomeIcon />Home</a>
             </li>
             <li>
-                <a class="flex gap-1" href="/"><RegisterIcon /> Register</a>
+                <a class="flex gap-1" href="/register"><RegisterIcon /> Register</a>
             </li>
             <li>
                 <a class="flex gap-1" href="/"><LoginIcon /> Login</a>
