@@ -15,6 +15,7 @@ requests = "*"
 flask-apscheduler = "*"
 flask-http-middleware = "*"
 pytest = "*"
+flask-cors = "*"
 
 [dev-packages]
 

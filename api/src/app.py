@@ -3,12 +3,14 @@ from constants.main import SQL_URI
 from routes.auth import AuthRoutes
 from routes.routines import RoutinesRoutes
 from tasks.exercises import get_exercises
+from flask_cors import CORS
 from db.database import db
 
 class App:
     app = Flask(__name__)
     
     def __init__(self):
+        CORS(self.app)
         self.init_db()
         self.init_app_context()
         self.blueprints()
