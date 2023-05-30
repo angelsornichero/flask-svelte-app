@@ -1,5 +1,6 @@
 <script lang="ts">
     import { register } from "../services/AuthServices"
+    import { setCookie } from "../modules/cookies.svelte"
 
     async function handleSubmit(evt: SubmitEvent) {
         const formData = new FormData(evt.target as HTMLFormElement)
@@ -11,6 +12,7 @@
         }
         const data = await register(user)
         console.log(data)
+        setCookie('sessionJWT', data.token)
     }
 
 </script>
