@@ -15,7 +15,7 @@
                 <a class="flex gap-1" href="/register"><RegisterIcon /> Register</a>
             </li>
             <li>
-                <a class="flex gap-1" href="/"><LoginIcon /> Login</a>
+                <a class="flex gap-1" href="/login"><LoginIcon /> Login</a>
             </li>
             <li>
                 <a class="flex gap-1" href="/#info"><InfoIcon /> Info</a>

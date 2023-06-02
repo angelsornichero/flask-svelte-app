@@ -7,6 +7,11 @@ interface RegisterParams {
     email: string
 }
 
+interface LoginParams {
+	username: string,
+	password: string
+}
+
 export async function register(user: RegisterParams) {
 	const res = await fetch(env.PUBLIC_BASE_URL.concat('/register'),
 		{
@@ -17,6 +22,20 @@ export async function register(user: RegisterParams) {
 			body: JSON.stringify(user)
 		}
 	)
+
+	const data = await res.json()
+
+	return data
+}
+
+export async function login(user: LoginParams) {
+	const res = await fetch(env.PUBLIC_BASE_URL.concat('/login'), {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(user)
+	})
 
 	const data = await res.json()
 
