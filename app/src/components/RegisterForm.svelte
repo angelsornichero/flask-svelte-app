@@ -13,6 +13,8 @@
         const data = await register(user)
         console.log(data)
         setCookie('sessionJWT', data.token)
+        window.location.href = '/dashboard';
+
     }
 
 </script>

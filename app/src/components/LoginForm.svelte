@@ -11,6 +11,7 @@
         const data = await login(user)
         console.log(data)
         setCookie('sessionJWT', data.token)
+        window.location.href = '/dashboard';
     }
 
 </script>

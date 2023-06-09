@@ -1,8 +1,7 @@
 <script>
-    import RegisterForm from "../../components/RegisterForm.svelte"
-
+    import LoginForm from "../../../components/LoginForm.svelte"
 </script>
 
 <section class="h-screen flex items-center justify-center">
-    <RegisterForm />
+    <LoginForm />
 </section>

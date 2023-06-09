@@ -1,7 +1,7 @@
 
 <script lang='ts'>
-    import Hero from "../components/Hero.svelte";
-    import AboutSection from "../components/AboutSection.svelte";
+    import Hero from "../../components/Hero.svelte";
+    import AboutSection from "../../components/AboutSection.svelte";
 </script>
 
 <Hero>
