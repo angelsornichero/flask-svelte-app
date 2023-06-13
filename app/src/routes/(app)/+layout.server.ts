@@ -1,6 +1,6 @@
 import type { LayoutServerLoad } from './$types'
 import { decodeUsernameJWT } from '../../services/JWTService'
-import { error } from '@sveltejs/kit'
+import { redirect } from '@sveltejs/kit'
 
 // eslint-disable-next-line
 export const load: any = (async({ cookies }) => {
@@ -8,11 +8,8 @@ export const load: any = (async({ cookies }) => {
 
 	const username = await decodeUsernameJWT(userCookie as string)
 
-	if (!username) throw error(401, { message: 'Please login first' })
+	if (username) throw redirect(301, '/dashboard')
 
-	return {
-		username
-	}
-
+	return
 
 }) satisfies LayoutServerLoad
