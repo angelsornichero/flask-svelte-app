@@ -11,7 +11,8 @@ export const load: any = (async({ cookies }) => {
 	if (!username) throw error(401, { message: 'Please login first' })
 
 	return {
-		username
+		username,
+		userCookie
 	}
 
 
